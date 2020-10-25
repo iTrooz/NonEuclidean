@@ -3,7 +3,6 @@ project(NonEuclidean)
 set(CMAKE_CXX_STANDARD 14)
 
 file( GLOB SOURCES src/*.cpp )
-file( GLOB HEADERS src/*.cpp )
+file( GLOB HEADERS src/*.h )
 add_executable(NonEuclidean ${SOURCES} ${HEADERS})
 target_include_directories(NonEuclidean PRIVATE include)
-
