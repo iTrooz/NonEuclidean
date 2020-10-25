@@ -1,0 +1,3 @@
+make
+cd final
+./NonEuclidean
