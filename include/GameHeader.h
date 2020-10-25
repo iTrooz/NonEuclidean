@@ -54,13 +54,13 @@ extern int64_t GH_FRAME;
 //Functions
 template<class T>
 inline T GH_CLAMP(T a, T mn, T mx) {
-  return a < mn ? mn : (a > mx ? mx : a);
+	return a < mn ? mn : (a > mx ? mx : a);
 }
 template<class T>
 inline T GH_MIN(T a, T b) {
-  return a < b ? a : b;
+	return a < b ? a : b;
 }
 template<class T>
 inline T GH_MAX(T a, T b) {
-  return a > b ? a : b;
+	return a > b ? a : b;
 }
