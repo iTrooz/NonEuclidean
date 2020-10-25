@@ -8,14 +8,13 @@ public:
 	void EndFrame();
 
 #if defined(_WIN32)
-	void UpdateRaw(const tagRAWINPUT* raw);
+	void UpdateMouse(const tagRAWINPUT* raw);
 #else
-	void UpdateRaw();
+	void UpdateMouse();
 #endif
 
 	//Keyboard
 	bool key[256];
-	bool key_press[256];
 
 	//Mouse
 	bool mouse_button[3];

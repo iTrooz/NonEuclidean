@@ -12,7 +12,6 @@ Input::Input() {
 }
 
 void Input::EndFrame() {
-  memset(key_press, 0, sizeof(key_press));
   memset(mouse_button_press, 0, sizeof(mouse_button_press));
   mouse_dx = mouse_dx * GH_MOUSE_SMOOTH + mouse_ddx * (1.0f - GH_MOUSE_SMOOTH);
   mouse_dy = mouse_dy * GH_MOUSE_SMOOTH + mouse_ddy * (1.0f - GH_MOUSE_SMOOTH);
@@ -22,7 +21,7 @@ void Input::EndFrame() {
 
 #if defined(_WIN32)
 
-void Input::UpdateRaw(const tagRAWINPUT* raw) {
+void Input::UpdateMouse(const tagRAWINPUT* raw) {
   static BYTE buffer[2048];
   static UINT buffer_size = sizeof(buffer);
 
@@ -53,7 +52,7 @@ void Input::UpdateRaw(const tagRAWINPUT* raw) {
 
 #else
 
-void Input::UpdateRaw() {
+void Input::UpdateMouse() {
 
   // read mouse position and buttons
   int mouse_x, mouse_y;

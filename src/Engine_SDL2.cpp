@@ -1,19 +1,10 @@
 #include "Engine.h"
 #include "Physical.h"
-#include "Level1.h"
-#include "Level2.h"
-#include "Level3.h"
-#include "Level4.h"
-#include "Level5.h"
-#include "Level6.h"
 #include <SDL2/SDL.h>
 #include <GL/glew.h>
-#include <cmath>
 #include <iostream>
-#include <algorithm>
 #include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 
 // --- SDL2-specific code ------------------------------------------------
 
@@ -110,61 +101,41 @@ int Engine::EnterMessageLoop() {
 		write(1, "\ncheck for event\n", 17);*/
 		if (SDL_PollEvent(&event)) {
 			const char* c = std::to_string(event.type).c_str();
+			write(1, "\n", 1);
 			write(1, c, strlen(c));
 			write(1, "\nevent\n", 7);
-			if(event.type==1024)continue;
 			if (event.type == SDL_QUIT) {
 				break;
 			}else if (event.type == SDL_KEYDOWN && event.key.repeat == 0) {
+				write(1, "key down\n", 9);
 				int keycode = event.key.keysym.sym;
 				auto mod = event.key.keysym.mod;
+				write(1, (char*) keycode, 1);
+				write(1, "\n", 1);
 				if (keycode == SDLK_ESCAPE) {
 					break;
-				}
-				else if (keycode == SDLK_RETURN && (mod & KMOD_LALT || mod & KMOD_RALT)	) {
+				}else if (keycode == SDLK_RETURN && (mod & KMOD_LALT || mod & KMOD_RALT)) {
 					ToggleFullscreen();
-				}
-				else if (keycode >= 'a' && keycode <= 'z')
-				{
-					write(1, "key down\n", 9);
-					input.key_press[toupper(keycode)] = true;
+				}else if (keycode >= 'a' && keycode <= 'z'){
 					input.key[toupper(keycode)] = true;
-				}
-				else if (keycode >= '0' && keycode <= '9') {
-					input.key_press[keycode] = true;
-					input.key[keycode] = true;
+				}else{
+					int i = keycode-49;
+					if(i>=0&&i<=6){
+						LoadScene(i);
+					}
 				}
 			}else if (event.type == SDL_KEYUP) {
+				write(1, "key up\n", 7);
 				auto keycode = event.key.keysym.sym;
-				if (keycode >= 'a' && keycode <= 'z')
-				{
-					write(1, "key up\n", 7);
+				if (keycode >= 'a' && keycode <= 'z'){
 					input.key[toupper(keycode)] = false;
 				}
-				else if (keycode >= '0' && keycode <= '9') {
-					input.key[keycode] = false;
-				}
+			}else if(event.type==SDL_MOUSEMOTION){
+				write(1, "mouse", 5);
+				input.UpdateMouse();
+				continue;
 			}
 		}
-
-		input.UpdateRaw();
-
-		if (input.key_press['1']) {
-			LoadScene(0);
-		} else if (input.key_press['2']) {
-			LoadScene(1);
-		} else if (input.key_press['3']) {
-			LoadScene(2);
-		} else if (input.key_press['4']) {
-			LoadScene(3);
-		} else if (input.key_press['5']) {
-			LoadScene(4);
-		} else if (input.key_press['6']) {
-			LoadScene(5);
-		} else if (input.key_press['7']) {
-			LoadScene(6);
-		}
-
 
 		PeriodicRender(cur_ticks);
 		SDL_GL_SwapWindow(window);
@@ -173,11 +144,6 @@ int Engine::EnterMessageLoop() {
 	return 0;
 }
 
-void keyboard(){
+void UpdateMouse(){
 
-}
-
-void Engine::ConfineCursor()
-{ 
-	//not needed
 }

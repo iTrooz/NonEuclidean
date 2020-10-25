@@ -1,3 +1,4 @@
+mkdir comp -p
 make
-cd final
+cd final || exit
 ./NonEuclidean
